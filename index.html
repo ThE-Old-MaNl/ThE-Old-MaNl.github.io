@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ThE-Old-MaN | Cybersecurity Portfolio</title>
-    <meta name="description" content="Aspiring Security Engineer building real-world, applicable security projects. Explore SIEM deployments, phishing analysis, and more." />
+    <title>ThE-Old-MaN | Phantom-OS // Blue Team Command Center</title>
+    <meta name="description" content="Blue Team Security Engineer building production-grade SOC environments, threat intelligence pipelines, and defensive security operations. Explore live SIEM deployments, phishing forensics, and adversary detection projects." />
+    <meta name="author" content="ThE-Old-MaN" />
+    <meta name="theme-color" content="#05080f" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
     <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -18,19 +20,23 @@
             theme: {
                 extend: {
                     colors: {
-                        hacker: {
-                            bg: '#0d1117',
-                            surface: '#161b22',
-                            border: '#30363d',
-                            text: '#e6edf3',
-                            muted: '#8b949e',
-                            accent: '#39d353',
-                            accentDim: '#238636',
+                        phantom: {
+                            bg: '#05080f',
+                            surface: '#0c1220',
+                            glass: '#111b2e',
+                            border: '#1a2744',
+                            text: '#e2e8f0',
+                            muted: '#64748b',
+                            green: '#00ff88',
+                            red: '#ff2d55',
+                            amber: '#ffb800',
+                            blue: '#0ea5e9',
+                            cyan: '#22d3ee',
                         },
                     },
                     fontFamily: {
                         sans: ['Inter', 'system-ui', 'sans-serif'],
-                        mono: ['Fira Code', 'Consolas', 'monospace'],
+                        mono: ['JetBrains Mono', 'Consolas', 'monospace'],
                     },
                 },
             },
@@ -40,138 +46,180 @@
     <style>
         /* ===== Base ===== */
         body {
-            background-color: #0d1117;
-            color: #e6edf3;
+            background-color: #05080f;
+            color: #e2e8f0;
             font-family: 'Inter', system-ui, sans-serif;
         }
 
-        /* ===== Animated Dot-Grid Background ===== */
+        /* ===== Dot-Grid Background ===== */
         .grid-bg {
             position: fixed;
             inset: 0;
             z-index: 0;
-            background-image:
-                radial-gradient(circle, rgba(57, 211, 83, 0.08) 1px, transparent 1px);
-            background-size: 32px 32px;
             pointer-events: none;
+            background-image: radial-gradient(circle, rgba(0, 255, 136, 0.04) 1px, transparent 1px);
+            background-size: 40px 40px;
         }
         .grid-bg::after {
             content: '';
             position: absolute;
             inset: 0;
-            background: radial-gradient(ellipse at 50% 0%, rgba(57,211,83,0.06) 0%, transparent 60%);
+            background: radial-gradient(ellipse at 50% 0%, rgba(0, 255, 136, 0.03) 0%, transparent 55%);
         }
 
-        /* ===== CRT Scanline Overlay ===== */
+        /* ===== CRT Scanlines ===== */
         .scanlines {
             position: fixed;
             inset: 0;
-            z-index: 9999;
+            z-index: 9998;
             pointer-events: none;
             background: repeating-linear-gradient(
                 0deg,
                 transparent,
                 transparent 2px,
-                rgba(0, 0, 0, 0.03) 2px,
-                rgba(0, 0, 0, 0.03) 4px
+                rgba(0, 0, 0, 0.025) 2px,
+                rgba(0, 0, 0, 0.025) 4px
             );
         }
 
         /* ===== Neon Glow Utilities ===== */
-        .glow-text {
-            text-shadow: 0 0 8px rgba(57, 211, 83, 0.6), 0 0 20px rgba(57, 211, 83, 0.3);
+        .glow-green {
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5), 0 0 30px rgba(0, 255, 136, 0.25), 0 0 60px rgba(0, 255, 136, 0.1);
         }
-        .glow-text-hover:hover {
-            text-shadow: 0 0 12px rgba(57, 211, 83, 0.8), 0 0 30px rgba(57, 211, 83, 0.5), 0 0 60px rgba(57, 211, 83, 0.2);
+        .glow-green-hover:hover {
+            text-shadow: 0 0 14px rgba(0, 255, 136, 0.7), 0 0 40px rgba(0, 255, 136, 0.4), 0 0 80px rgba(0, 255, 136, 0.15);
         }
-
-        /* ===== Blinking Cursor ===== */
-        .cursor-blink::after {
-            content: '█';
-            animation: blink 1s step-end infinite;
-            color: #39d353;
+        .glow-red {
+            text-shadow: 0 0 10px rgba(255, 45, 85, 0.5), 0 0 30px rgba(255, 45, 85, 0.25);
         }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
+        .glow-amber {
+            text-shadow: 0 0 10px rgba(255, 184, 0, 0.5), 0 0 30px rgba(255, 184, 0, 0.25);
         }
 
-        /* ===== Typing Animation ===== */
-        .typing-text {
-            overflow: hidden;
-            white-space: nowrap;
-            border-right: 3px solid #39d353;
-            animation:
-                typing 2.8s steps(28, end) forwards,
-                cursor-blink-border 0.75s step-end infinite;
-            width: 0;
-        }
-        @keyframes typing {
-            from { width: 0; }
-            to   { width: 100%; }
-        }
-        @keyframes cursor-blink-border {
-            0%, 100% { border-color: #39d353; }
-            50%      { border-color: transparent; }
-        }
-
-        /* ===== Card Glow Border ===== */
-        .card-glow {
+        /* ===== Glitch Text Effect ===== */
+        .glitch {
             position: relative;
-            background: #161b22;
-            border: 1px solid #30363d;
-            border-radius: 12px;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            display: inline-block;
         }
-        .card-glow::before {
-            content: '';
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
             position: absolute;
-            inset: -1px;
-            border-radius: 13px;
-            padding: 1px;
-            background: linear-gradient(135deg, transparent 30%, rgba(57,211,83,0.0) 50%, transparent 70%);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
         }
-        .card-glow:hover {
-            border-color: rgba(57, 211, 83, 0.4);
-            transform: translateY(-6px);
+        .glitch::before {
+            color: #ff2d55;
+            z-index: -1;
+            animation: glitch-1 4.5s infinite linear alternate-reverse;
+        }
+        .glitch::after {
+            color: #22d3ee;
+            z-index: -2;
+            animation: glitch-2 3.5s infinite linear alternate-reverse;
+        }
+        @keyframes glitch-1 {
+            0%   { clip-path: inset(42% 0 58% 0); transform: translate(-3px, -1px); }
+            10%  { clip-path: inset(10% 0 85% 0); transform: translate(2px, 1px); }
+            20%  { clip-path: inset(90% 0 1% 0);  transform: translate(-1px, 0); }
+            30%  { clip-path: inset(25% 0 60% 0);  transform: translate(3px, 1px); }
+            40%  { clip-path: inset(55% 0 10% 0);  transform: translate(-2px, 2px); }
+            50%  { clip-path: inset(70% 0 15% 0);  transform: translate(1px, -1px); }
+            60%  { clip-path: inset(5% 0 80% 0);   transform: translate(-1px, 2px); }
+            70%  { clip-path: inset(35% 0 50% 0);  transform: translate(2px, -2px); }
+            80%  { clip-path: inset(80% 0 5% 0);   transform: translate(-3px, 1px); }
+            90%  { clip-path: inset(15% 0 70% 0);  transform: translate(1px, 0); }
+            100% { clip-path: inset(60% 0 30% 0);  transform: translate(-2px, -1px); }
+        }
+        @keyframes glitch-2 {
+            0%   { clip-path: inset(65% 0 10% 0); transform: translate(2px, 1px); }
+            10%  { clip-path: inset(20% 0 60% 0); transform: translate(-1px, -2px); }
+            20%  { clip-path: inset(80% 0 5% 0);  transform: translate(1px, 1px); }
+            30%  { clip-path: inset(5% 0 85% 0);  transform: translate(-2px, -1px); }
+            40%  { clip-path: inset(45% 0 35% 0); transform: translate(2px, -2px); }
+            50%  { clip-path: inset(30% 0 50% 0); transform: translate(-1px, 2px); }
+            60%  { clip-path: inset(75% 0 15% 0); transform: translate(3px, -1px); }
+            70%  { clip-path: inset(10% 0 75% 0); transform: translate(-2px, 1px); }
+            80%  { clip-path: inset(50% 0 30% 0); transform: translate(1px, 2px); }
+            90%  { clip-path: inset(85% 0 3% 0);  transform: translate(-1px, -2px); }
+            100% { clip-path: inset(40% 0 45% 0); transform: translate(2px, 0); }
+        }
+
+        /* ===== Glassmorphism Card ===== */
+        .glass-card {
+            background: rgba(12, 18, 32, 0.55);
+            backdrop-filter: blur(20px) saturate(1.4);
+            -webkit-backdrop-filter: blur(20px) saturate(1.4);
+            border: 1px solid rgba(26, 39, 68, 0.6);
+            border-radius: 16px;
+            transition: all 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .glass-card:hover {
+            border-color: rgba(0, 255, 136, 0.25);
+            transform: translateY(-8px);
             box-shadow:
-                0 0 20px rgba(57, 211, 83, 0.1),
-                0 0 60px rgba(57, 211, 83, 0.05),
-                0 20px 40px rgba(0, 0, 0, 0.3);
+                0 0 30px rgba(0, 255, 136, 0.06),
+                0 0 60px rgba(0, 255, 136, 0.03),
+                0 25px 50px rgba(0, 0, 0, 0.4);
         }
-        .card-glow:hover::before {
-            background: linear-gradient(135deg, rgba(57,211,83,0.5) 0%, rgba(57,211,83,0.1) 50%, rgba(57,211,83,0.5) 100%);
+
+        /* ===== Threat Level Bars ===== */
+        .threat-bar {
+            height: 3px;
+            width: 100%;
+            border-radius: 16px 16px 0 0;
+        }
+        .threat-critical {
+            background: linear-gradient(90deg, #ff2d55, #ff6b8a);
+            box-shadow: 0 0 20px rgba(255, 45, 85, 0.35);
+        }
+        .threat-high {
+            background: linear-gradient(90deg, #ffb800, #ffd060);
+            box-shadow: 0 0 20px rgba(255, 184, 0, 0.35);
         }
 
         /* ===== Tag Pill ===== */
         .tag {
             display: inline-block;
             padding: 4px 12px;
-            font-size: 0.7rem;
-            font-family: 'Fira Code', monospace;
+            font-size: 0.6rem;
+            font-family: 'JetBrains Mono', monospace;
             border-radius: 9999px;
-            border: 1px solid rgba(57, 211, 83, 0.25);
-            color: #39d353;
-            background: rgba(57, 211, 83, 0.06);
+            border: 1px solid rgba(0, 255, 136, 0.18);
+            color: #00ff88;
+            background: rgba(0, 255, 136, 0.04);
             transition: all 0.3s ease;
-            letter-spacing: 0.02em;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
         }
         .tag:hover {
-            background: rgba(57, 211, 83, 0.15);
-            border-color: rgba(57, 211, 83, 0.5);
-            box-shadow: 0 0 12px rgba(57, 211, 83, 0.15);
+            background: rgba(0, 255, 136, 0.12);
+            border-color: rgba(0, 255, 136, 0.45);
+            box-shadow: 0 0 14px rgba(0, 255, 136, 0.12);
         }
 
-        /* ===== Scroll-Reveal ===== */
+        /* ===== Status Dot ===== */
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            background: #00ff88;
+            border-radius: 50%;
+            display: inline-block;
+            animation: status-pulse 2.5s ease-in-out infinite;
+        }
+        @keyframes status-pulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.5); }
+            50%      { opacity: 0.6; box-shadow: 0 0 0 6px rgba(0, 255, 136, 0); }
+        }
+
+        /* ===== Scroll Reveal ===== */
         .reveal {
             opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.7s ease, transform 0.7s ease;
+            transform: translateY(32px);
+            transition: opacity 0.75s ease, transform 0.75s ease;
         }
         .reveal.visible {
             opacity: 1;
@@ -180,20 +228,22 @@
 
         /* ===== Nav Blur ===== */
         .nav-blur {
-            backdrop-filter: blur(16px) saturate(1.6);
-            -webkit-backdrop-filter: blur(16px) saturate(1.6);
+            backdrop-filter: blur(20px) saturate(1.8);
+            -webkit-backdrop-filter: blur(20px) saturate(1.8);
         }
 
-        /* ===== Pulse Ring ===== */
-        .pulse-ring {
-            animation: pulse-ring 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        /* ===== Cursor Blink ===== */
+        .cursor-blink::after {
+            content: '█';
+            animation: blink 1s step-end infinite;
+            color: #00ff88;
         }
-        @keyframes pulse-ring {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(57, 211, 83, 0.4); }
-            50%      { box-shadow: 0 0 0 8px rgba(57, 211, 83, 0); }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50%      { opacity: 0; }
         }
 
-        /* ===== Link Underline ===== */
+        /* ===== Link Glow Underline ===== */
         .link-glow {
             position: relative;
             transition: color 0.3s ease;
@@ -205,295 +255,584 @@
             bottom: -2px;
             width: 0;
             height: 1px;
-            background: #39d353;
-            box-shadow: 0 0 8px rgba(57,211,83,0.5);
+            background: #00ff88;
+            box-shadow: 0 0 8px rgba(0, 255, 136, 0.5);
             transition: width 0.3s ease;
         }
         .link-glow:hover::after {
             width: 100%;
         }
 
-        /* ===== Custom Scrollbar ===== */
-        ::-webkit-scrollbar {
-            width: 6px;
+        /* ===== Text Flicker ===== */
+        .text-flicker {
+            animation: flicker 4s infinite;
         }
-        ::-webkit-scrollbar-track {
-            background: #0d1117;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #30363d;
-            border-radius: 3px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #39d353;
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            92%      { opacity: 1; }
+            93%      { opacity: 0.4; }
+            94%      { opacity: 1; }
+            96%      { opacity: 0.6; }
+            97%      { opacity: 1; }
         }
 
-        /* ===== Status Indicator ===== */
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background: #39d353;
-            border-radius: 50%;
-            display: inline-block;
-            animation: status-pulse 2s ease-in-out infinite;
+        /* ===== Boot Fade ===== */
+        .boot-msg {
+            animation: bootSlideIn 0.3s ease forwards;
         }
-        @keyframes status-pulse {
-            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(57,211,83,0.6); }
-            50% { opacity: 0.6; box-shadow: 0 0 0 6px rgba(57,211,83,0); }
+        @keyframes bootSlideIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== Custom Scrollbar ===== */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #05080f; }
+        ::-webkit-scrollbar-thumb { background: #1a2744; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #00ff88; }
+
+        /* ===== Encrypted Labs Progress Bar ===== */
+        .labs-progress-bar {
+            background: linear-gradient(90deg, #ffb800, #ff8c00);
+            box-shadow: 0 0 12px rgba(255, 184, 0, 0.4);
+            animation: progressShimmer 2s ease-in-out infinite;
+        }
+        @keyframes progressShimmer {
+            0%, 100% { opacity: 1; }
+            50%      { opacity: 0.7; }
+        }
+
+        /* ===== Radar Pulse (Projects BG) ===== */
+        .radar-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid rgba(0, 255, 136, 0.06);
+            animation: radarExpand 4s ease-out infinite;
+            pointer-events: none;
+        }
+        .radar-ring:nth-child(2) { animation-delay: 1.3s; }
+        .radar-ring:nth-child(3) { animation-delay: 2.6s; }
+        @keyframes radarExpand {
+            0%   { width: 0; height: 0; opacity: 0.3; }
+            100% { width: 600px; height: 600px; opacity: 0; }
+        }
+
+        /* ===== Gradient Divider ===== */
+        .gradient-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.2), transparent);
         }
     </style>
 </head>
 
 <body class="min-h-screen relative overflow-x-hidden">
-    <!-- Background layers -->
+
+    <!-- ==================== BOOT SCREEN ==================== -->
+    <div id="boot-screen" class="fixed inset-0 z-[10000] flex items-center justify-center transition-opacity duration-500" style="background: #02050a;">
+        <div class="text-center font-mono max-w-md px-6">
+            <!-- Logo -->
+            <div id="boot-logo" class="mb-10 opacity-0 transition-opacity duration-500">
+                <div class="text-phantom-green text-2xl sm:text-3xl font-bold tracking-[0.3em] glow-green mb-2">PHANTOM-OS</div>
+                <div class="text-phantom-muted/40 text-[10px] tracking-[0.2em] uppercase">v2.7.0 &nbsp;// &nbsp;Blue Team Command Center</div>
+                <div class="w-32 h-px bg-gradient-to-r from-transparent via-phantom-green/40 to-transparent mx-auto mt-4"></div>
+            </div>
+
+            <!-- Boot Messages -->
+            <div id="boot-messages" class="text-left text-[11px] text-phantom-muted/60 space-y-1.5 mb-8 min-h-[100px]"></div>
+
+            <!-- Progress Bar -->
+            <div class="w-72 h-[3px] bg-phantom-border/20 rounded-full overflow-hidden mx-auto mb-6">
+                <div id="boot-progress" class="h-full rounded-full" style="width: 0%; background: linear-gradient(90deg, #00ff88, #22d3ee); box-shadow: 0 0 15px rgba(0,255,136,0.5); transition: width 1.8s cubic-bezier(0.4, 0, 0.2, 1);"></div>
+            </div>
+
+            <!-- Access Granted -->
+            <div id="boot-status" class="text-phantom-green text-xs font-bold tracking-[0.25em] opacity-0 transition-opacity duration-300 glow-green uppercase">
+                ▸ Access Granted
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== BACKGROUND LAYERS ==================== -->
+    <canvas id="particle-canvas" class="fixed inset-0 z-0 pointer-events-none" aria-hidden="true"></canvas>
     <div class="grid-bg" aria-hidden="true"></div>
     <div class="scanlines" aria-hidden="true"></div>
 
-    <!-- ==================== NAVIGATION ==================== -->
-    <nav id="nav" class="fixed top-0 left-0 right-0 z-50 nav-blur bg-hacker-bg/80 border-b border-hacker-border/50">
-        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-            <!-- Terminal Prompt -->
-            <a href="#" id="nav-brand" class="font-mono text-hacker-accent font-semibold text-lg glow-text glow-text-hover transition-all duration-300 flex items-center gap-2">
-                <span class="text-hacker-muted font-normal text-sm">user@kali:~$</span>
-                <span>./ThE-Old-MaN</span>
-            </a>
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <div id="main-content" style="opacity: 0; transition: opacity 0.8s ease-in-out;">
 
-            <!-- Nav Links -->
-            <div class="hidden sm:flex items-center gap-8">
-                <a href="#projects" class="font-mono text-sm text-hacker-muted hover:text-hacker-accent link-glow transition-colors duration-300">
-                    <span class="text-hacker-accent/60 mr-1">[</span>projects<span class="text-hacker-accent/60 ml-1">]</span>
+        <!-- ==================== NAVIGATION ==================== -->
+        <nav id="nav" class="fixed top-0 left-0 right-0 z-50 nav-blur bg-phantom-bg/75 border-b border-phantom-border/40">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
+                <!-- Brand -->
+                <a href="#" id="nav-brand" class="font-mono text-phantom-green font-semibold text-sm glow-green glow-green-hover transition-all duration-300 flex items-center gap-1.5">
+                    <span class="text-phantom-muted/50 font-normal">[</span>PHANTOM-OS<span class="text-phantom-muted/50 font-normal">]</span>
                 </a>
-                <a href="#contact" class="font-mono text-sm text-hacker-muted hover:text-hacker-accent link-glow transition-colors duration-300">
-                    <span class="text-hacker-accent/60 mr-1">[</span>contact<span class="text-hacker-accent/60 ml-1">]</span>
-                </a>
-                <div class="flex items-center gap-2">
-                    <span class="status-dot"></span>
-                    <span class="font-mono text-xs text-hacker-muted">online</span>
+
+                <!-- Center Nav Links -->
+                <div class="hidden sm:flex items-center gap-6">
+                    <a href="#projects" class="font-mono text-xs text-phantom-muted hover:text-phantom-green link-glow transition-colors duration-300">
+                        <span class="text-phantom-green/30 mr-0.5">[</span>operations<span class="text-phantom-green/30 ml-0.5">]</span>
+                    </a>
+                    <a href="#contact" class="font-mono text-xs text-phantom-muted hover:text-phantom-green link-glow transition-colors duration-300">
+                        <span class="text-phantom-green/30 mr-0.5">[</span>comms<span class="text-phantom-green/30 ml-0.5">]</span>
+                    </a>
+                </div>
+
+                <!-- Right Status -->
+                <div class="flex items-center gap-3 sm:gap-4">
+                    <div class="flex items-center gap-1.5">
+                        <span class="status-dot"></span>
+                        <span class="font-mono text-[10px] text-phantom-muted uppercase tracking-wider">Online</span>
+                    </div>
+                    <div class="hidden md:block font-mono text-[10px] text-phantom-muted/50 tabular-nums">
+                        UTC <span id="utc-clock">--:--:--</span>
+                    </div>
+                    <div class="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-md border border-phantom-green/15 bg-phantom-green/[0.03]">
+                        <span class="w-1.5 h-1.5 rounded-full bg-phantom-green shadow-[0_0_6px_rgba(0,255,136,0.5)]"></span>
+                        <span class="font-mono text-[9px] text-phantom-green uppercase tracking-[0.1em]">Threat: Low</span>
+                    </div>
                 </div>
             </div>
-        </div>
-    </nav>
+        </nav>
 
-    <!-- ==================== HERO SECTION ==================== -->
-    <section id="hero" class="relative z-10 min-h-screen flex items-center justify-center px-6">
-        <div class="max-w-3xl text-center">
-            <!-- Decorative Terminal Line -->
-            <div class="reveal font-mono text-xs text-hacker-muted mb-8 flex items-center justify-center gap-3">
-                <span class="w-12 h-px bg-hacker-border inline-block"></span>
-                <span>~/security/portfolio <span class="text-hacker-accent">$</span> whoami</span>
-                <span class="w-12 h-px bg-hacker-border inline-block"></span>
-            </div>
+        <!-- ==================== HERO SECTION ==================== -->
+        <section id="hero" class="relative z-10 min-h-screen flex items-center justify-center px-6">
+            <div class="max-w-3xl text-center">
+                <!-- Terminal Prompt -->
+                <div class="reveal font-mono text-xs text-phantom-muted mb-8 flex items-center justify-center gap-3">
+                    <span class="w-12 h-px bg-phantom-border inline-block"></span>
+                    <span>phantom-os@soc:~<span class="text-phantom-green">$</span> ./authenticate_operator.sh</span>
+                    <span class="w-12 h-px bg-phantom-border inline-block"></span>
+                </div>
 
-            <!-- Main Heading -->
-            <div class="reveal mb-6" style="transition-delay: 0.15s;">
-                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight">
-                    <span class="text-hacker-text">Aspiring</span><br />
-                    <span class="text-hacker-accent glow-text font-mono">Security Engineer</span>
-                </h1>
-            </div>
+                <!-- Main Heading with Glitch Effect -->
+                <div class="reveal mb-6" style="transition-delay: 0.15s;">
+                    <h1 class="text-4xl sm:text-5xl md:text-7xl font-bold leading-tight tracking-tight">
+                        <span class="text-phantom-text block mb-2">Aspiring</span>
+                        <span class="glitch text-phantom-green glow-green font-mono" data-text="Security Engineer">Security Engineer</span>
+                    </h1>
+                </div>
 
-            <!-- Sub-description -->
-            <div class="reveal" style="transition-delay: 0.3s;">
-                <p class="text-base sm:text-lg text-hacker-muted leading-relaxed max-w-xl mx-auto mb-10">
-                    Building <span class="text-hacker-accent font-medium">real-world</span>, applicable security projects — from SIEM deployments and threat investigations to phishing dissection and blue team operations.
-                </p>
-            </div>
+                <!-- Sub-description -->
+                <div class="reveal" style="transition-delay: 0.3s;">
+                    <p class="text-base sm:text-lg text-phantom-muted leading-relaxed max-w-xl mx-auto mb-10">
+                        Building <span class="text-phantom-green font-medium">real-world</span>, applicable security projects — from SIEM deployments and threat investigations to phishing dissection and blue team operations.
+                    </p>
+                </div>
 
-            <!-- CTA Buttons -->
-            <div class="reveal flex flex-col sm:flex-row items-center justify-center gap-4" style="transition-delay: 0.45s;">
-                <a href="#projects" id="cta-projects"
-                   class="group font-mono text-sm px-8 py-3 rounded-lg bg-hacker-accent/10 border border-hacker-accent/30 text-hacker-accent hover:bg-hacker-accent/20 hover:border-hacker-accent/60 hover:shadow-[0_0_25px_rgba(57,211,83,0.15)] transition-all duration-300">
-                    <span class="mr-2 text-hacker-accent/60">$</span>view_projects<span class="ml-1 opacity-0 group-hover:opacity-100 transition-opacity">_</span>
-                </a>
-                <a href="#contact" id="cta-contact"
-                   class="font-mono text-sm px-8 py-3 rounded-lg border border-hacker-border text-hacker-muted hover:text-hacker-accent hover:border-hacker-accent/40 transition-all duration-300">
-                    <span class="mr-2 text-hacker-accent/60">$</span>init_contact
-                </a>
-            </div>
+                <!-- CTA Buttons -->
+                <div class="reveal flex flex-col sm:flex-row items-center justify-center gap-4" style="transition-delay: 0.45s;">
+                    <a href="#projects" id="cta-projects"
+                       class="group font-mono text-sm px-8 py-3.5 rounded-lg bg-phantom-green/[0.08] border border-phantom-green/25 text-phantom-green hover:bg-phantom-green/[0.15] hover:border-phantom-green/50 hover:shadow-[0_0_35px_rgba(0,255,136,0.12)] transition-all duration-300">
+                        <span class="mr-2 text-phantom-green/50">$</span>scan_operations<span class="ml-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">_</span>
+                    </a>
+                    <a href="#contact" id="cta-contact"
+                       class="font-mono text-sm px-8 py-3.5 rounded-lg border border-phantom-border text-phantom-muted hover:text-phantom-green hover:border-phantom-green/30 hover:shadow-[0_0_25px_rgba(0,255,136,0.06)] transition-all duration-300">
+                        <span class="mr-2 text-phantom-green/50">$</span>open_comms
+                    </a>
+                </div>
 
-            <!-- Scroll Indicator -->
-            <div class="reveal absolute bottom-10 left-1/2 -translate-x-1/2" style="transition-delay: 0.6s;">
-                <div class="flex flex-col items-center gap-2">
-                    <span class="font-mono text-xs text-hacker-muted/50">scroll</span>
-                    <svg class="w-4 h-4 text-hacker-accent/40 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                    </svg>
+                <!-- Scroll Indicator -->
+                <div class="reveal absolute bottom-10 left-1/2 -translate-x-1/2" style="transition-delay: 0.6s;">
+                    <div class="flex flex-col items-center gap-2">
+                        <span class="font-mono text-[10px] text-phantom-muted/40 uppercase tracking-widest">scroll</span>
+                        <svg class="w-4 h-4 text-phantom-green/30 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                        </svg>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- ==================== PROJECTS SECTION ==================== -->
-    <section id="projects" class="relative z-10 py-24 px-6">
-        <div class="max-w-5xl mx-auto">
-            <!-- Section Header -->
-            <div class="reveal text-center mb-16">
-                <div class="font-mono text-xs text-hacker-muted mb-4 flex items-center justify-center gap-3">
-                    <span class="w-8 h-px bg-hacker-border inline-block"></span>
-                    <span>ls -la ./projects/</span>
-                    <span class="w-8 h-px bg-hacker-border inline-block"></span>
+        <!-- ==================== PROJECTS / OPERATIONS SECTION ==================== -->
+        <section id="projects" class="relative z-10 py-24 px-6">
+            <!-- Radar Pulse Background -->
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" aria-hidden="true">
+                <div class="radar-ring" style="margin-left: -300px; margin-top: -300px;"></div>
+                <div class="radar-ring" style="margin-left: -300px; margin-top: -300px;"></div>
+                <div class="radar-ring" style="margin-left: -300px; margin-top: -300px;"></div>
+            </div>
+
+            <div class="max-w-6xl mx-auto relative">
+                <!-- Section Header -->
+                <div class="reveal text-center mb-16">
+                    <div class="font-mono text-xs text-phantom-muted mb-4 flex items-center justify-center gap-3">
+                        <span class="w-8 h-px bg-phantom-border inline-block"></span>
+                        <span>ls -la ./threat_intel/operations/</span>
+                        <span class="w-8 h-px bg-phantom-border inline-block"></span>
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl font-bold text-phantom-text">
+                        Active <span class="text-phantom-green glow-green">Operations</span>
+                    </h2>
+                    <p class="font-mono text-sm text-phantom-muted mt-3">
+                        // classified blue team deployments — clearance level: public
+                    </p>
                 </div>
-                <h2 class="text-3xl sm:text-4xl font-bold text-hacker-text">
-                    Featured <span class="text-hacker-accent glow-text">Projects</span>
+
+                <!-- Project Cards Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                    <!-- ===== Card 1: Azure Sentinel SIEM ===== -->
+                    <div class="reveal glass-card overflow-hidden" style="transition-delay: 0.1s;">
+                        <div class="threat-bar threat-critical"></div>
+                        <div class="p-7 sm:p-8 flex flex-col h-full">
+                            <!-- Card Header -->
+                            <div class="flex items-start justify-between mb-5">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 rounded-xl bg-phantom-red/[0.08] border border-phantom-red/20 flex items-center justify-center">
+                                        <svg class="w-6 h-6 text-phantom-red" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25" />
+                                        </svg>
+                                    </div>
+                                    <span class="font-mono text-[9px] text-phantom-red uppercase tracking-[0.1em] px-2 py-0.5 rounded border border-phantom-red/20 bg-phantom-red/[0.05]">Critical</span>
+                                </div>
+                                <span class="font-mono text-[10px] text-phantom-muted/25 tracking-wider">OP-001</span>
+                            </div>
+
+                            <!-- Card Title -->
+                            <h3 class="text-lg sm:text-xl font-semibold text-phantom-text mb-3 font-mono leading-snug">
+                                <span class="text-phantom-green mr-1">&gt;</span> Azure Sentinel SIEM &amp; Live Cyber Attack Map
+                            </h3>
+
+                            <!-- Card Description -->
+                            <p class="text-sm text-phantom-muted leading-relaxed mb-6 flex-grow">
+                                Architected a live Cloud SOC environment in Microsoft Azure. Deployed a vulnerable Windows Honeypot VM, engineered a custom PowerShell script to extract and enrich RDP brute-force logs with geolocation APIs, and visualized live global attacker telemetry using KQL on an interactive Sentinel dashboard.
+                            </p>
+
+                            <!-- Tags -->
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="tag">Cloud SOC</span>
+                                <span class="tag">Azure Sentinel</span>
+                                <span class="tag">PowerShell</span>
+                                <span class="tag">KQL</span>
+                                <span class="tag">Threat Intel</span>
+                            </div>
+
+                            <!-- Card Footer -->
+                            <div class="pt-4 border-t border-phantom-border/40 flex items-center justify-between">
+                                <span class="font-mono text-[11px] text-phantom-muted flex items-center gap-2">
+                                    <span class="status-dot"></span>
+                                    deployed
+                                </span>
+                                <a href="https://github.com/ThE-Old-MaNl/Azure-SIEM-Honeypot" target="_blank" rel="noopener noreferrer" class="font-mono text-[11px] text-phantom-green hover:underline link-glow transition-colors duration-300">
+                                    view_repository →
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ===== Card 2: Phishing Analysis ===== -->
+                    <div class="reveal glass-card overflow-hidden" style="transition-delay: 0.25s;">
+                        <div class="threat-bar threat-high"></div>
+                        <div class="p-7 sm:p-8 flex flex-col h-full">
+                            <!-- Card Header -->
+                            <div class="flex items-start justify-between mb-5">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 rounded-xl bg-phantom-amber/[0.08] border border-phantom-amber/20 flex items-center justify-center">
+                                        <svg class="w-6 h-6 text-phantom-amber" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                                        </svg>
+                                    </div>
+                                    <span class="font-mono text-[9px] text-phantom-amber uppercase tracking-[0.1em] px-2 py-0.5 rounded border border-phantom-amber/20 bg-phantom-amber/[0.05]">High</span>
+                                </div>
+                                <span class="font-mono text-[10px] text-phantom-muted/25 tracking-wider">OP-002</span>
+                            </div>
+
+                            <!-- Card Title -->
+                            <h3 class="text-lg sm:text-xl font-semibold text-phantom-text mb-3 font-mono leading-snug">
+                                <span class="text-phantom-green mr-1">&gt;</span> Phishing Header Analysis
+                            </h3>
+
+                            <!-- Card Description -->
+                            <p class="text-sm text-phantom-muted leading-relaxed mb-6 flex-grow">
+                                Dissected real-world phishing samples, analyzing DMARC, DKIM, and SPF failures to identify credential harvesting infrastructure. Mapped attacker TTPs and documented IOCs for threat intel sharing.
+                            </p>
+
+                            <!-- Tags -->
+                            <div class="flex flex-wrap gap-2 mb-6">
+                                <span class="tag">White Hat</span>
+                                <span class="tag">Email Security</span>
+                                <span class="tag">OSINT</span>
+                                <span class="tag">Blue Team</span>
+                            </div>
+
+                            <!-- Card Footer -->
+                            <div class="pt-4 border-t border-phantom-border/40 flex items-center justify-between">
+                                <span class="font-mono text-[11px] text-phantom-muted flex items-center gap-2">
+                                    <span class="status-dot"></span>
+                                    active
+                                </span>
+                                <a href="#" class="font-mono text-[11px] text-phantom-green hover:underline link-glow transition-colors duration-300">
+                                    view_report →
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ===== Card 3: ENCRYPTED LABS (Coming Soon) ===== -->
+                    <div class="reveal md:col-span-2" style="transition-delay: 0.4s;">
+                        <div class="glass-card overflow-hidden" style="border-color: rgba(255, 184, 0, 0.15);">
+                            <div class="threat-bar" style="background: linear-gradient(90deg, #ffb800, #ff8c00); box-shadow: 0 0 20px rgba(255, 184, 0, 0.25);"></div>
+                            <div class="p-7 sm:p-10">
+                                <div class="flex flex-col sm:flex-row items-start gap-6">
+                                    <!-- Lock Icon -->
+                                    <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-phantom-amber/[0.06] border border-phantom-amber/15 flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-7 h-7 sm:w-8 sm:h-8 text-phantom-amber" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                                        </svg>
+                                    </div>
+
+                                    <div class="flex-grow w-full">
+                                        <!-- Title Row -->
+                                        <div class="flex flex-wrap items-center gap-3 mb-3">
+                                            <h3 class="text-lg sm:text-xl font-bold font-mono text-phantom-amber glow-amber text-flicker">
+                                                [ENCRYPTED LABS]
+                                            </h3>
+                                            <span class="font-mono text-[8px] text-phantom-amber/80 uppercase tracking-[0.15em] px-2 py-0.5 rounded border border-phantom-amber/20 bg-phantom-amber/[0.05] animate-pulse">
+                                                Classified
+                                            </span>
+                                        </div>
+
+                                        <!-- Description -->
+                                        <p class="font-mono text-sm text-phantom-muted leading-relaxed mb-5">
+                                            Deploying additional MITRE ATT&CK defense projects soon. Advanced threat detection, incident response playbooks, and adversary emulation frameworks currently under active development.
+                                        </p>
+
+                                        <!-- Progress Bar -->
+                                        <div class="mb-5">
+                                            <div class="flex items-center justify-between mb-1.5">
+                                                <span class="font-mono text-[9px] text-phantom-muted/70 uppercase tracking-[0.1em]">Deployment Progress</span>
+                                                <span class="font-mono text-[10px] text-phantom-amber font-medium">47%</span>
+                                            </div>
+                                            <div class="w-full h-1.5 bg-phantom-border/30 rounded-full overflow-hidden">
+                                                <div class="h-full labs-progress-bar rounded-full" style="width: 47%;"></div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Status Tags -->
+                                        <div class="flex flex-wrap gap-2.5">
+                                            <span class="font-mono text-[8px] text-phantom-amber border border-phantom-amber/20 bg-phantom-amber/[0.04] px-3 py-1 rounded-full uppercase tracking-[0.1em]">
+                                                Status: In Development
+                                            </span>
+                                            <span class="font-mono text-[8px] text-phantom-muted/60 border border-phantom-border/60 px-3 py-1 rounded-full uppercase tracking-[0.1em]">
+                                                Clearance: Pending
+                                            </span>
+                                            <span class="font-mono text-[8px] text-phantom-muted/60 border border-phantom-border/60 px-3 py-1 rounded-full uppercase tracking-[0.1em]">
+                                                MITRE ATT&CK
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== FOOTER / SECURE COMMS ==================== -->
+        <footer id="contact" class="relative z-10 py-20 px-6">
+            <div class="gradient-divider max-w-6xl mx-auto mb-20"></div>
+
+            <div class="max-w-3xl mx-auto text-center">
+                <!-- Section Label -->
+                <div class="reveal font-mono text-xs text-phantom-muted mb-8 flex items-center justify-center gap-3">
+                    <span class="w-8 h-px bg-phantom-border inline-block"></span>
+                    <span>openssl enc -d ./comms_channel.enc</span>
+                    <span class="w-8 h-px bg-phantom-border inline-block"></span>
+                </div>
+
+                <h2 class="reveal text-2xl sm:text-3xl font-bold text-phantom-text mb-4" style="transition-delay: 0.1s;">
+                    Secure <span class="text-phantom-green glow-green">Comms Channel</span>
                 </h2>
-                <p class="font-mono text-sm text-hacker-muted mt-3">
-                    // Hands-on security work — not just theory
+                <p class="reveal font-mono text-sm text-phantom-muted mb-10" style="transition-delay: 0.2s;">
+                    // Open to SOC Analyst, Security Engineer, and Blue Team roles
+                </p>
+
+                <!-- Social Links -->
+                <div class="reveal flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-16" style="transition-delay: 0.3s;">
+                    <!-- GitHub -->
+                    <a href="https://github.com/ThE-Old-MaNl" target="_blank" rel="noopener noreferrer" id="link-github"
+                       class="group flex items-center gap-3 px-6 py-3.5 rounded-xl border border-phantom-border bg-phantom-surface/40 hover:border-phantom-green/30 hover:bg-phantom-green/[0.04] hover:shadow-[0_0_25px_rgba(0,255,136,0.06)] transition-all duration-300 w-full sm:w-auto justify-center">
+                        <svg class="w-5 h-5 text-phantom-muted group-hover:text-phantom-green transition-colors duration-300" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                        <span class="font-mono text-sm text-phantom-muted group-hover:text-phantom-green transition-colors duration-300">GitHub</span>
+                        <svg class="w-3 h-3 text-phantom-muted/30 group-hover:text-phantom-green/50 transition-colors duration-300 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                    </a>
+
+                    <!-- LinkedIn -->
+                    <a href="https://www.linkedin.com/in/abdessamad-jedd/" target="_blank" rel="noopener noreferrer" id="link-linkedin"
+                       class="group flex items-center gap-3 px-6 py-3.5 rounded-xl border border-phantom-border bg-phantom-surface/40 hover:border-phantom-green/30 hover:bg-phantom-green/[0.04] hover:shadow-[0_0_25px_rgba(0,255,136,0.06)] transition-all duration-300 w-full sm:w-auto justify-center">
+                        <svg class="w-5 h-5 text-phantom-muted group-hover:text-phantom-green transition-colors duration-300" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                        <span class="font-mono text-sm text-phantom-muted group-hover:text-phantom-green transition-colors duration-300">LinkedIn</span>
+                        <svg class="w-3 h-3 text-phantom-muted/30 group-hover:text-phantom-green/50 transition-colors duration-300 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                    </a>
+                </div>
+
+                <!-- Terminal Exit Message -->
+                <div class="reveal" style="transition-delay: 0.4s;">
+                    <div class="inline-block px-6 py-4 rounded-xl bg-phantom-surface/25 border border-phantom-border/25">
+                        <p class="font-mono text-sm text-phantom-muted">
+                            <span class="text-phantom-green/50">phantom-os@soc:~$</span>
+                            <span class="text-phantom-muted ml-2">exit</span>
+                        </p>
+                        <p class="font-mono text-xs text-phantom-muted/40 mt-1.5 cursor-blink">
+                            connection_terminated. session_logged.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Copyright -->
+                <p class="font-mono text-[10px] text-phantom-muted/20 mt-14 tracking-wider">
+                    &copy; 2026 ThE-Old-MaN &middot; All rights reserved.
                 </p>
             </div>
+        </footer>
 
-            <!-- Project Cards Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-
-                <!-- Card 1: SIEM -->
-                <div class="reveal card-glow p-8 flex flex-col" style="transition-delay: 0.1s;">
-                    <!-- Card Header -->
-                    <div class="flex items-start justify-between mb-5">
-                        <div class="w-12 h-12 rounded-lg bg-hacker-accent/10 border border-hacker-accent/20 flex items-center justify-center">
-                            <svg class="w-6 h-6 text-hacker-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25" />
-                            </svg>
-                        </div>
-                        <span class="font-mono text-xs text-hacker-muted/50">01</span>
-                    </div>
-
-                    <!-- Card Title -->
-                    <h3 class="text-xl font-semibold text-hacker-text mb-3 font-mono leading-snug">
-                        <span class="text-hacker-accent mr-1">&gt;</span> Azure Sentinel SIEM &amp; Live Cyber Attack Map
-                    </h3>
-
-                    <!-- Card Description -->
-                    <p class="text-sm text-hacker-muted leading-relaxed mb-6 flex-grow">
-                        Architected a live Cloud SOC environment in Microsoft Azure. Deployed a vulnerable Windows Honeypot VM, engineered a custom PowerShell script to extract and enrich RDP brute-force logs with geolocation APIs, and visualized live global attacker telemetry using KQL on an interactive Sentinel dashboard.
-                    </p>
-
-                    <!-- Tags -->
-                    <div class="flex flex-wrap gap-2 mb-6">
-                        <span class="tag">Cloud SOC</span>
-                        <span class="tag">Azure Sentinel</span>
-                        <span class="tag">PowerShell</span>
-                        <span class="tag">KQL</span>
-                        <span class="tag">Threat Intel</span>
-                    </div>
-
-                    <!-- Card Footer -->
-                    <div class="pt-4 border-t border-hacker-border/50 flex items-center justify-between">
-                        <span class="font-mono text-xs text-hacker-muted flex items-center gap-2">
-                            <span class="status-dot"></span>
-                            active
-                        </span>
-                        <a href="https://github.com/ThE-Old-MaNl/Azure-SIEM-Honeypot" target="_blank" rel="noopener noreferrer" class="font-mono text-xs text-hacker-accent hover:underline link-glow transition-colors">
-                            view_repository →
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Card 2: Phishing -->
-                <div class="reveal card-glow p-8 flex flex-col" style="transition-delay: 0.25s;">
-                    <!-- Card Header -->
-                    <div class="flex items-start justify-between mb-5">
-                        <div class="w-12 h-12 rounded-lg bg-hacker-accent/10 border border-hacker-accent/20 flex items-center justify-center">
-                            <svg class="w-6 h-6 text-hacker-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
-                            </svg>
-                        </div>
-                        <span class="font-mono text-xs text-hacker-muted/50">02</span>
-                    </div>
-
-                    <!-- Card Title -->
-                    <h3 class="text-xl font-semibold text-hacker-text mb-3 font-mono leading-snug">
-                        <span class="text-hacker-accent mr-1">&gt;</span> Phishing Header Analysis
-                    </h3>
-
-                    <!-- Card Description -->
-                    <p class="text-sm text-hacker-muted leading-relaxed mb-6 flex-grow">
-                        Dissected real-world phishing samples, analyzing DMARC, DKIM, and SPF failures to identify credential harvesting infrastructure. Mapped attacker TTPs and documented IOCs for threat intel sharing.
-                    </p>
-
-                    <!-- Tags -->
-                    <div class="flex flex-wrap gap-2 mb-6">
-                        <span class="tag">White Hat</span>
-                        <span class="tag">Email Security</span>
-                        <span class="tag">OSINT</span>
-                        <span class="tag">Blue Team</span>
-                    </div>
-
-                    <!-- Card Footer -->
-                    <div class="pt-4 border-t border-hacker-border/50 flex items-center justify-between">
-                        <span class="font-mono text-xs text-hacker-muted flex items-center gap-2">
-                            <span class="status-dot"></span>
-                            active
-                        </span>
-                        <a href="#" class="font-mono text-xs text-hacker-accent hover:underline link-glow transition-colors">
-                            view_report →
-                        </a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <!-- ==================== FOOTER / CONTACT ==================== -->
-    <footer id="contact" class="relative z-10 py-20 px-6 border-t border-hacker-border/30">
-        <div class="max-w-3xl mx-auto text-center">
-            <!-- Section Label -->
-            <div class="reveal font-mono text-xs text-hacker-muted mb-8 flex items-center justify-center gap-3">
-                <span class="w-8 h-px bg-hacker-border inline-block"></span>
-                <span>cat ./contact.txt</span>
-                <span class="w-8 h-px bg-hacker-border inline-block"></span>
-            </div>
-
-            <h2 class="reveal text-2xl sm:text-3xl font-bold text-hacker-text mb-4" style="transition-delay: 0.1s;">
-                Get in <span class="text-hacker-accent glow-text">Touch</span>
-            </h2>
-            <p class="reveal font-mono text-sm text-hacker-muted mb-10" style="transition-delay: 0.2s;">
-                // Open to SOC Analyst, Security Engineer, and Blue Team roles
-            </p>
-
-            <!-- Social Links -->
-            <div class="reveal flex items-center justify-center gap-6 mb-16" style="transition-delay: 0.3s;">
-                <!-- GitHub -->
-                <a href="https://github.com/ThE-Old-MaNl" target="_blank" rel="noopener noreferrer" id="link-github"
-                   class="group flex items-center gap-3 px-6 py-3 rounded-lg border border-hacker-border bg-hacker-surface/50 hover:border-hacker-accent/40 hover:bg-hacker-accent/5 transition-all duration-300">
-                    <svg class="w-5 h-5 text-hacker-muted group-hover:text-hacker-accent transition-colors" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                    </svg>
-                    <span class="font-mono text-sm text-hacker-muted group-hover:text-hacker-accent transition-colors">GitHub</span>
-                </a>
-
-                <!-- LinkedIn -->
-                <a href="https://www.linkedin.com/in/abdessamad-jedd/" target="_blank" rel="noopener noreferrer" id="link-linkedin"
-                   class="group flex items-center gap-3 px-6 py-3 rounded-lg border border-hacker-border bg-hacker-surface/50 hover:border-hacker-accent/40 hover:bg-hacker-accent/5 transition-all duration-300">
-                    <svg class="w-5 h-5 text-hacker-muted group-hover:text-hacker-accent transition-colors" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                    </svg>
-                    <span class="font-mono text-sm text-hacker-muted group-hover:text-hacker-accent transition-colors">LinkedIn</span>
-                </a>
-            </div>
-
-            <!-- Terminal Exit Message -->
-            <div class="reveal" style="transition-delay: 0.4s;">
-                <div class="inline-block px-6 py-3 rounded-lg bg-hacker-surface/30 border border-hacker-border/30">
-                    <p class="font-mono text-sm text-hacker-muted">
-                        <span class="text-hacker-accent/60">user@kali:~$</span>
-                        <span class="text-hacker-muted ml-2">exit</span>
-                    </p>
-                    <p class="font-mono text-xs text-hacker-muted/50 mt-1 cursor-blink">
-                        Connection terminated.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Copyright -->
-            <p class="font-mono text-xs text-hacker-muted/30 mt-12">
-                &copy; 2026 ThE-Old-MaN &middot; All rights reserved.
-            </p>
-        </div>
-    </footer>
+    </div><!-- /main-content -->
 
     <!-- ==================== JAVASCRIPT ==================== -->
     <script>
-        // === Intersection Observer for scroll-reveal ===
+        // ======================================================
+        // BOOT SEQUENCE
+        // ======================================================
+        (function () {
+            const bootScreen  = document.getElementById('boot-screen');
+            const bootLogo    = document.getElementById('boot-logo');
+            const bootMsgs    = document.getElementById('boot-messages');
+            const bootBar     = document.getElementById('boot-progress');
+            const bootStatus  = document.getElementById('boot-status');
+            const mainContent = document.getElementById('main-content');
+
+            const messages = [
+                { text: '[KERNEL]  Loading phantom-sec-amd64...',           accent: true  },
+                { text: '[NET]     Establishing encrypted uplink...',       accent: false },
+                { text: '[THREAT]  Syncing threat intel databases...',      accent: false },
+                { text: '[AUTH]    Operator credentials verified.',         accent: true  },
+                { text: '[SOC]     Command center interface loaded.  [OK]', accent: true  },
+            ];
+
+            // Show logo
+            setTimeout(() => { bootLogo.style.opacity = '1'; }, 100);
+
+            // Start progress bar
+            setTimeout(() => { bootBar.style.width = '100%'; }, 250);
+
+            // Show messages
+            messages.forEach((msg, i) => {
+                setTimeout(() => {
+                    const el = document.createElement('div');
+                    el.className = 'boot-msg' + (msg.accent ? ' text-phantom-green/60' : '');
+                    el.innerHTML = '<span class="text-phantom-green/30 mr-1">›</span> ' + msg.text;
+                    bootMsgs.appendChild(el);
+                }, 350 + i * 280);
+            });
+
+            // ACCESS GRANTED
+            setTimeout(() => { bootStatus.style.opacity = '1'; }, 2050);
+
+            // Fade out boot screen → fade in content
+            setTimeout(() => {
+                bootScreen.style.opacity = '0';
+                bootScreen.style.pointerEvents = 'none';
+                mainContent.style.opacity = '1';
+            }, 2500);
+
+            // Remove boot screen from DOM
+            setTimeout(() => { bootScreen.remove(); }, 3100);
+        })();
+
+        // ======================================================
+        // PARTICLE NETWORK CANVAS
+        // ======================================================
+        (function () {
+            const canvas = document.getElementById('particle-canvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            const COUNT = 55;
+            const MAX_DIST = 130;
+
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+
+            function init() {
+                particles = [];
+                for (let i = 0; i < COUNT; i++) {
+                    particles.push({
+                        x: Math.random() * canvas.width,
+                        y: Math.random() * canvas.height,
+                        vx: (Math.random() - 0.5) * 0.35,
+                        vy: (Math.random() - 0.5) * 0.35,
+                        r: Math.random() * 1.5 + 0.5,
+                    });
+                }
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                for (const p of particles) {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                    if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(0, 255, 136, 0.2)';
+                    ctx.fill();
+                }
+
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < MAX_DIST) {
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.strokeStyle = 'rgba(0, 255, 136, ' + (0.07 * (1 - dist / MAX_DIST)) + ')';
+                            ctx.lineWidth = 0.5;
+                            ctx.stroke();
+                        }
+                    }
+                }
+
+                requestAnimationFrame(draw);
+            }
+
+            resize();
+            init();
+            draw();
+            window.addEventListener('resize', () => { resize(); init(); });
+        })();
+
+        // ======================================================
+        // UTC CLOCK
+        // ======================================================
+        (function () {
+            const el = document.getElementById('utc-clock');
+            function tick() {
+                const n = new Date();
+                el.textContent =
+                    String(n.getUTCHours()).padStart(2, '0') + ':' +
+                    String(n.getUTCMinutes()).padStart(2, '0') + ':' +
+                    String(n.getUTCSeconds()).padStart(2, '0');
+            }
+            setInterval(tick, 1000);
+            tick();
+        })();
+
+        // ======================================================
+        // SCROLL REVEAL
+        // ======================================================
         const revealObserver = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
@@ -505,20 +844,25 @@
             },
             { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
         );
-
         document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
 
-        // === Nav background on scroll ===
+        // ======================================================
+        // NAV SCROLL EFFECT
+        // ======================================================
         const nav = document.getElementById('nav');
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 40) {
-                nav.classList.add('border-hacker-accent/10');
+            if (window.scrollY > 50) {
+                nav.style.borderBottomColor = 'rgba(0, 255, 136, 0.08)';
+                nav.style.backgroundColor = 'rgba(5, 8, 15, 0.9)';
             } else {
-                nav.classList.remove('border-hacker-accent/10');
+                nav.style.borderBottomColor = '';
+                nav.style.backgroundColor = '';
             }
         });
 
-        // === Smooth scroll for anchor links ===
+        // ======================================================
+        // SMOOTH SCROLL
+        // ======================================================
         document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
