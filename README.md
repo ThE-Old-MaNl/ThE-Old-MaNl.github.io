@@ -17,4 +17,4 @@ Check out the live portfolio here: **[https://the-old-manl.github.io/](https://t
 ## 📬 Contact
 Open to SOC Analyst, Security Engineer, and Blue Team roles.
 - **GitHub:** [ThE-Old-MaNl](https://github.com/ThE-Old-MaNl)
-- **LinkedIn:** [Connect on LinkedIn](https://www.linkedin.com/in/abdessamad-jedd/)
+- **LinkedIn:** [LinkedIn](https://www.linkedin.com/in/abdessamad-jedd/)
