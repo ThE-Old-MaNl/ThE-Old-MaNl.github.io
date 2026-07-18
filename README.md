@@ -3,7 +3,7 @@
 This repository contains the source code for my personal cybersecurity portfolio website. It showcases my hands-on projects, security lab experiences, and professional journey in the Blue Team & Cloud Security domain.
 
 ## 🚀 Live Site
-Check out the live portfolio here: **[https://the-old-manl.github.io/](https://the-old-manl.github.io/)**
+Check out the live portfolio here: [ ./run_portfolio.sh ](https://the-old-manl.github.io/)
 
 ## 🛠️ Tech Stack
 * **Frontend:** HTML5, Tailwind CSS.
