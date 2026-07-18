@@ -104,7 +104,7 @@ python -m http.server 8000
 Currently accepting connections for **SOC Analyst**, **Security Engineer**, and **Blue Team** roles.
 
 - **GitHub Uplink:** [@ThE-Old-MaNl](https://github.com/ThE-Old-MaNl)
-- **LinkedIn Uplink:** [Abdessamad Jedd](https://www.linkedin.com/in/abdessamad-jedd/)
+- **LinkedIn Uplink:** [My LinkedIn Profile](https://www.linkedin.com/in/abdessamad-jedd/)
 
 <br/>
 
