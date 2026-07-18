@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ThE-Old-MaN | Cybersecurity Portfolio</title>
+    <meta name="description" content="Aspiring Security Engineer building real-world, applicable security projects. Explore SIEM deployments, phishing analysis, and more." />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        hacker: {
+                            bg: '#0d1117',
+                            surface: '#161b22',
+                            border: '#30363d',
+                            text: '#e6edf3',
+                            muted: '#8b949e',
+                            accent: '#39d353',
+                            accentDim: '#238636',
+                        },
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['Fira Code', 'Consolas', 'monospace'],
+                    },
+                },
+            },
+        };
+    </script>
+
+    <style>
+        /* ===== Base ===== */
+        body {
+            background-color: #0d1117;
+            color: #e6edf3;
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+
+        /* ===== Animated Dot-Grid Background ===== */
+        .grid-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background-image:
+                radial-gradient(circle, rgba(57, 211, 83, 0.08) 1px, transparent 1px);
+            background-size: 32px 32px;
+            pointer-events: none;
+        }
+        .grid-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 0%, rgba(57,211,83,0.06) 0%, transparent 60%);
+        }
+
+        /* ===== CRT Scanline Overlay ===== */
+        .scanlines {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            pointer-events: none;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.03) 2px,
+                rgba(0, 0, 0, 0.03) 4px
+            );
+        }
+
+        /* ===== Neon Glow Utilities ===== */
+        .glow-text {
+            text-shadow: 0 0 8px rgba(57, 211, 83, 0.6), 0 0 20px rgba(57, 211, 83, 0.3);
+        }
+        .glow-text-hover:hover {
+            text-shadow: 0 0 12px rgba(57, 211, 83, 0.8), 0 0 30px rgba(57, 211, 83, 0.5), 0 0 60px rgba(57, 211, 83, 0.2);
+        }
+
+        /* ===== Blinking Cursor ===== */
+        .cursor-blink::after {
+            content: '█';
+            animation: blink 1s step-end infinite;
+            color: #39d353;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* ===== Typing Animation ===== */
+        .typing-text {
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 3px solid #39d353;
+            animation:
+                typing 2.8s steps(28, end) forwards,
+                cursor-blink-border 0.75s step-end infinite;
+            width: 0;
+        }
+        @keyframes typing {
+            from { width: 0; }
+            to   { width: 100%; }
+        }
+        @keyframes cursor-blink-border {
+            0%, 100% { border-color: #39d353; }
+            50%      { border-color: transparent; }
+        }
+
+        /* ===== Card Glow Border ===== */
+        .card-glow {
+            position: relative;
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .card-glow::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: 13px;
+            padding: 1px;
+            background: linear-gradient(135deg, transparent 30%, rgba(57,211,83,0.0) 50%, transparent 70%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .card-glow:hover {
+            border-color: rgba(57, 211, 83, 0.4);
+            transform: translateY(-6px);
+            box-shadow:
+                0 0 20px rgba(57, 211, 83, 0.1),
+                0 0 60px rgba(57, 211, 83, 0.05),
+                0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        .card-glow:hover::before {
+            background: linear-gradient(135deg, rgba(57,211,83,0.5) 0%, rgba(57,211,83,0.1) 50%, rgba(57,211,83,0.5) 100%);
+        }
+
+        /* ===== Tag Pill ===== */
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            font-size: 0.7rem;
+            font-family: 'Fira Code', monospace;
+            border-radius: 9999px;
+            border: 1px solid rgba(57, 211, 83, 0.25);
+            color: #39d353;
+            background: rgba(57, 211, 83, 0.06);
+            transition: all 0.3s ease;
+            letter-spacing: 0.02em;
+        }
+        .tag:hover {
+            background: rgba(57, 211, 83, 0.15);
+            border-color: rgba(57, 211, 83, 0.5);
+            box-shadow: 0 0 12px rgba(57, 211, 83, 0.15);
+        }
+
+        /* ===== Scroll-Reveal ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== Nav Blur ===== */
+        .nav-blur {
+            backdrop-filter: blur(16px) saturate(1.6);
+            -webkit-backdrop-filter: blur(16px) saturate(1.6);
+        }
+
+        /* ===== Pulse Ring ===== */
+        .pulse-ring {
+            animation: pulse-ring 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-ring {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(57, 211, 83, 0.4); }
+            50%      { box-shadow: 0 0 0 8px rgba(57, 211, 83, 0); }
+        }
+
+        /* ===== Link Underline ===== */
+        .link-glow {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .link-glow::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 0;
+            height: 1px;
+            background: #39d353;
+            box-shadow: 0 0 8px rgba(57,211,83,0.5);
+            transition: width 0.3s ease;
+        }
+        .link-glow:hover::after {
+            width: 100%;
+        }
+
+        /* ===== Custom Scrollbar ===== */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0d1117;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #30363d;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #39d353;
+        }
+
+        /* ===== Status Indicator ===== */
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #39d353;
+            border-radius: 50%;
+            display: inline-block;
+            animation: status-pulse 2s ease-in-out infinite;
+        }
+        @keyframes status-pulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(57,211,83,0.6); }
+            50% { opacity: 0.6; box-shadow: 0 0 0 6px rgba(57,211,83,0); }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen relative overflow-x-hidden">
+    <!-- Background layers -->
+    <div class="grid-bg" aria-hidden="true"></div>
+    <div class="scanlines" aria-hidden="true"></div>
+
+    <!-- ==================== NAVIGATION ==================== -->
+    <nav id="nav" class="fixed top-0 left-0 right-0 z-50 nav-blur bg-hacker-bg/80 border-b border-hacker-border/50">
+        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+            <!-- Terminal Prompt -->
+            <a href="#" id="nav-brand" class="font-mono text-hacker-accent font-semibold text-lg glow-text glow-text-hover transition-all duration-300 flex items-center gap-2">
+                <span class="text-hacker-muted font-normal text-sm">user@kali:~$</span>
+                <span>./ThE-Old-MaN</span>
+            </a>
+
+            <!-- Nav Links -->
+            <div class="hidden sm:flex items-center gap-8">
+                <a href="#projects" class="font-mono text-sm text-hacker-muted hover:text-hacker-accent link-glow transition-colors duration-300">
+                    <span class="text-hacker-accent/60 mr-1">[</span>projects<span class="text-hacker-accent/60 ml-1">]</span>
+                </a>
+                <a href="#contact" class="font-mono text-sm text-hacker-muted hover:text-hacker-accent link-glow transition-colors duration-300">
+                    <span class="text-hacker-accent/60 mr-1">[</span>contact<span class="text-hacker-accent/60 ml-1">]</span>
+                </a>
+                <div class="flex items-center gap-2">
+                    <span class="status-dot"></span>
+                    <span class="font-mono text-xs text-hacker-muted">online</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==================== HERO SECTION ==================== -->
+    <section id="hero" class="relative z-10 min-h-screen flex items-center justify-center px-6">
+        <div class="max-w-3xl text-center">
+            <!-- Decorative Terminal Line -->
+            <div class="reveal font-mono text-xs text-hacker-muted mb-8 flex items-center justify-center gap-3">
+                <span class="w-12 h-px bg-hacker-border inline-block"></span>
+                <span>~/security/portfolio <span class="text-hacker-accent">$</span> whoami</span>
+                <span class="w-12 h-px bg-hacker-border inline-block"></span>
+            </div>
+
+            <!-- Main Heading -->
+            <div class="reveal mb-6" style="transition-delay: 0.15s;">
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight tracking-tight">
+                    <span class="text-hacker-text">Aspiring</span><br />
+                    <span class="text-hacker-accent glow-text font-mono">Security Engineer</span>
+                </h1>
+            </div>
+
+            <!-- Sub-description -->
+            <div class="reveal" style="transition-delay: 0.3s;">
+                <p class="text-base sm:text-lg text-hacker-muted leading-relaxed max-w-xl mx-auto mb-10">
+                    Building <span class="text-hacker-accent font-medium">real-world</span>, applicable security projects — from SIEM deployments and threat investigations to phishing dissection and blue team operations.
+                </p>
+            </div>
+
+            <!-- CTA Buttons -->
+            <div class="reveal flex flex-col sm:flex-row items-center justify-center gap-4" style="transition-delay: 0.45s;">
+                <a href="#projects" id="cta-projects"
+                   class="group font-mono text-sm px-8 py-3 rounded-lg bg-hacker-accent/10 border border-hacker-accent/30 text-hacker-accent hover:bg-hacker-accent/20 hover:border-hacker-accent/60 hover:shadow-[0_0_25px_rgba(57,211,83,0.15)] transition-all duration-300">
+                    <span class="mr-2 text-hacker-accent/60">$</span>view_projects<span class="ml-1 opacity-0 group-hover:opacity-100 transition-opacity">_</span>
+                </a>
+                <a href="#contact" id="cta-contact"
+                   class="font-mono text-sm px-8 py-3 rounded-lg border border-hacker-border text-hacker-muted hover:text-hacker-accent hover:border-hacker-accent/40 transition-all duration-300">
+                    <span class="mr-2 text-hacker-accent/60">$</span>init_contact
+                </a>
+            </div>
+
+            <!-- Scroll Indicator -->
+            <div class="reveal absolute bottom-10 left-1/2 -translate-x-1/2" style="transition-delay: 0.6s;">
+                <div class="flex flex-col items-center gap-2">
+                    <span class="font-mono text-xs text-hacker-muted/50">scroll</span>
+                    <svg class="w-4 h-4 text-hacker-accent/40 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== PROJECTS SECTION ==================== -->
+    <section id="projects" class="relative z-10 py-24 px-6">
+        <div class="max-w-5xl mx-auto">
+            <!-- Section Header -->
+            <div class="reveal text-center mb-16">
+                <div class="font-mono text-xs text-hacker-muted mb-4 flex items-center justify-center gap-3">
+                    <span class="w-8 h-px bg-hacker-border inline-block"></span>
+                    <span>ls -la ./projects/</span>
+                    <span class="w-8 h-px bg-hacker-border inline-block"></span>
+                </div>
+                <h2 class="text-3xl sm:text-4xl font-bold text-hacker-text">
+                    Featured <span class="text-hacker-accent glow-text">Projects</span>
+                </h2>
+                <p class="font-mono text-sm text-hacker-muted mt-3">
+                    // Hands-on security work — not just theory
+                </p>
+            </div>
+
+            <!-- Project Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                <!-- Card 1: SIEM -->
+                <div class="reveal card-glow p-8 flex flex-col" style="transition-delay: 0.1s;">
+                    <!-- Card Header -->
+                    <div class="flex items-start justify-between mb-5">
+                        <div class="w-12 h-12 rounded-lg bg-hacker-accent/10 border border-hacker-accent/20 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-hacker-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25" />
+                            </svg>
+                        </div>
+                        <span class="font-mono text-xs text-hacker-muted/50">01</span>
+                    </div>
+
+                    <!-- Card Title -->
+                    <h3 class="text-xl font-semibold text-hacker-text mb-3 font-mono leading-snug">
+                        <span class="text-hacker-accent mr-1">&gt;</span> Azure Sentinel SIEM &amp; Live Cyber Attack Map
+                    </h3>
+
+                    <!-- Card Description -->
+                    <p class="text-sm text-hacker-muted leading-relaxed mb-6 flex-grow">
+                        Architected a live Cloud SOC environment in Microsoft Azure. Deployed a vulnerable Windows Honeypot VM, engineered a custom PowerShell script to extract and enrich RDP brute-force logs with geolocation APIs, and visualized live global attacker telemetry using KQL on an interactive Sentinel dashboard.
+                    </p>
+
+                    <!-- Tags -->
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="tag">Cloud SOC</span>
+                        <span class="tag">Azure Sentinel</span>
+                        <span class="tag">PowerShell</span>
+                        <span class="tag">KQL</span>
+                        <span class="tag">Threat Intel</span>
+                    </div>
+
+                    <!-- Card Footer -->
+                    <div class="pt-4 border-t border-hacker-border/50 flex items-center justify-between">
+                        <span class="font-mono text-xs text-hacker-muted flex items-center gap-2">
+                            <span class="status-dot"></span>
+                            active
+                        </span>
+                        <a href="https://github.com/ThE-Old-MaNl/Azure-SIEM-Honeypot" target="_blank" rel="noopener noreferrer" class="font-mono text-xs text-hacker-accent hover:underline link-glow transition-colors">
+                            view_repository →
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Card 2: Phishing -->
+                <div class="reveal card-glow p-8 flex flex-col" style="transition-delay: 0.25s;">
+                    <!-- Card Header -->
+                    <div class="flex items-start justify-between mb-5">
+                        <div class="w-12 h-12 rounded-lg bg-hacker-accent/10 border border-hacker-accent/20 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-hacker-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+                            </svg>
+                        </div>
+                        <span class="font-mono text-xs text-hacker-muted/50">02</span>
+                    </div>
+
+                    <!-- Card Title -->
+                    <h3 class="text-xl font-semibold text-hacker-text mb-3 font-mono leading-snug">
+                        <span class="text-hacker-accent mr-1">&gt;</span> Phishing Header Analysis
+                    </h3>
+
+                    <!-- Card Description -->
+                    <p class="text-sm text-hacker-muted leading-relaxed mb-6 flex-grow">
+                        Dissected real-world phishing samples, analyzing DMARC, DKIM, and SPF failures to identify credential harvesting infrastructure. Mapped attacker TTPs and documented IOCs for threat intel sharing.
+                    </p>
+
+                    <!-- Tags -->
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="tag">White Hat</span>
+                        <span class="tag">Email Security</span>
+                        <span class="tag">OSINT</span>
+                        <span class="tag">Blue Team</span>
+                    </div>
+
+                    <!-- Card Footer -->
+                    <div class="pt-4 border-t border-hacker-border/50 flex items-center justify-between">
+                        <span class="font-mono text-xs text-hacker-muted flex items-center gap-2">
+                            <span class="status-dot"></span>
+                            active
+                        </span>
+                        <a href="#" class="font-mono text-xs text-hacker-accent hover:underline link-glow transition-colors">
+                            view_report →
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FOOTER / CONTACT ==================== -->
+    <footer id="contact" class="relative z-10 py-20 px-6 border-t border-hacker-border/30">
+        <div class="max-w-3xl mx-auto text-center">
+            <!-- Section Label -->
+            <div class="reveal font-mono text-xs text-hacker-muted mb-8 flex items-center justify-center gap-3">
+                <span class="w-8 h-px bg-hacker-border inline-block"></span>
+                <span>cat ./contact.txt</span>
+                <span class="w-8 h-px bg-hacker-border inline-block"></span>
+            </div>
+
+            <h2 class="reveal text-2xl sm:text-3xl font-bold text-hacker-text mb-4" style="transition-delay: 0.1s;">
+                Get in <span class="text-hacker-accent glow-text">Touch</span>
+            </h2>
+            <p class="reveal font-mono text-sm text-hacker-muted mb-10" style="transition-delay: 0.2s;">
+                // Open to SOC Analyst, Security Engineer, and Blue Team roles
+            </p>
+
+            <!-- Social Links -->
+            <div class="reveal flex items-center justify-center gap-6 mb-16" style="transition-delay: 0.3s;">
+                <!-- GitHub -->
+                <a href="https://github.com/ThE-Old-MaNl" target="_blank" rel="noopener noreferrer" id="link-github"
+                   class="group flex items-center gap-3 px-6 py-3 rounded-lg border border-hacker-border bg-hacker-surface/50 hover:border-hacker-accent/40 hover:bg-hacker-accent/5 transition-all duration-300">
+                    <svg class="w-5 h-5 text-hacker-muted group-hover:text-hacker-accent transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    <span class="font-mono text-sm text-hacker-muted group-hover:text-hacker-accent transition-colors">GitHub</span>
+                </a>
+
+                <!-- LinkedIn -->
+                <a href="https://www.linkedin.com/in/abdessamad-jedd/" target="_blank" rel="noopener noreferrer" id="link-linkedin"
+                   class="group flex items-center gap-3 px-6 py-3 rounded-lg border border-hacker-border bg-hacker-surface/50 hover:border-hacker-accent/40 hover:bg-hacker-accent/5 transition-all duration-300">
+                    <svg class="w-5 h-5 text-hacker-muted group-hover:text-hacker-accent transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                    <span class="font-mono text-sm text-hacker-muted group-hover:text-hacker-accent transition-colors">LinkedIn</span>
+                </a>
+            </div>
+
+            <!-- Terminal Exit Message -->
+            <div class="reveal" style="transition-delay: 0.4s;">
+                <div class="inline-block px-6 py-3 rounded-lg bg-hacker-surface/30 border border-hacker-border/30">
+                    <p class="font-mono text-sm text-hacker-muted">
+                        <span class="text-hacker-accent/60">user@kali:~$</span>
+                        <span class="text-hacker-muted ml-2">exit</span>
+                    </p>
+                    <p class="font-mono text-xs text-hacker-muted/50 mt-1 cursor-blink">
+                        Connection terminated.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <p class="font-mono text-xs text-hacker-muted/30 mt-12">
+                &copy; 2026 ThE-Old-MaN &middot; All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <!-- ==================== JAVASCRIPT ==================== -->
+    <script>
+        // === Intersection Observer for scroll-reveal ===
+        const revealObserver = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        revealObserver.unobserve(entry.target);
+                    }
+                });
+            },
+            { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+        );
+
+        document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
+
+        // === Nav background on scroll ===
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 40) {
+                nav.classList.add('border-hacker-accent/10');
+            } else {
+                nav.classList.remove('border-hacker-accent/10');
+            }
+        });
+
+        // === Smooth scroll for anchor links ===
+        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
