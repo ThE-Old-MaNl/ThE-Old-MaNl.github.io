@@ -59,13 +59,13 @@ This command center highlights hands-on defensive security engineering, moving b
 - **Output:** A live, globally mapped dashboard of active attacker telemetry visualized via KQL.
 - 🔗 **Link:** [View Repository](https://github.com/ThE-Old-MaNl/Azure-SIEM-Honeypot)
 
-### 🟠 `[OP-002]` Phishing Header Analysis
-> **Threat Level:** HIGH ▓▓▓▓▓▓▓▓▓▓▓▓░░░░ 75%
+### 🔴 `[OP-002]` AI-Powered SOAR Phishing Pipeline
+> **Threat Level:** CRITICAL ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ 100%
 
-- **Mission:** Dissect credential harvesting campaigns.
-- **Execution:** Analyzed real-world phishing samples, mapping DMARC, DKIM, and SPF failures. Identified attacker infrastructure and mapped TTPs (Tactics, Techniques, and Procedures).
-- **Output:** Documented IOCs (Indicators of Compromise) for threat intel sharing.
-- 🔗 **Link:** [View Report](#)
+- **Mission:** Automate Level 1/Level 2 SOC phishing triage.
+- **Execution:** Built an enterprise-grade SOAR pipeline using n8n. Ingests phishing emails, extracts IOCs via regex, enriches them against AbuseIPDB and VirusTotal, and uses Google Gemini for GenAI triage. Delivers real-time critical alerts to a SOC Discord channel.
+- **Output:** Reduced MTTR from 15-30 minutes to under 10 seconds per alert with comprehensive automated forensics.
+- 🔗 **Link:** [View Repository](https://github.com/ThE-Old-MaNl/SOAR-Phishing-Pipeline)
 
 ### 🟡 `[ENCRYPTED LABS]` — *Coming Soon*
 > **Status:** IN DEVELOPMENT ▓▓▓▓▓▓▓░░░░░░░░░ 47%
